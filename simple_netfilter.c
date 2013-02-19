@@ -1,13 +1,41 @@
-// Simple "Hello World" Netfilter Hook module
-// Chaitanya <C@24.IO>
-// Code from: http://www.paulkiddie.com/2009/10/creating-a-simple-hello-world-netfilter-module/ 
-// Machine: 3.2.0-37-generic
-//
+/* 
+ * simple_netfilter.c.c
+ * Copyright (C) 2013 Chaitanya H. <C@24.IO>
+ * Date: Tue Feb 19 11:08:27 PST 2013
+ * 
+ * This file is a simple "Hello World" implementation of Netfilter Hooks.
+ * I am using it to study the Netfilters hook implementation. 
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; version 2 of the License.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * 
+ * Code from: http://www.paulkiddie.com/2009/10/creating-a-simple-hello-world-netfilter-module/ 
+ * Machine: 3.2.0-37-generic
+ *
+ */
+
 
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/netfilter.h>
 #include <linux/netfilter_ipv4.h>
+
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Chaitanya H <C@24.IO>");
+MODULE_DESCRIPTION("Hello World Netfilter Hook module");
+MODULE_ALIAS("simple_netfilter");
+
 
 static struct nf_hook_ops nfhookops; // Hook function options
 
@@ -15,6 +43,9 @@ static struct nf_hook_ops nfhookops; // Hook function options
 unsigned int hook_function(unsigned int hooknum, struct sk_buff *skb, const struct net_device *in, const struct net_device *out, int (*okfn)(struct sk_buff *))
 {
   printk(KERN_INFO "packet dropped\n");                                             //log to var/log/messages
+  
+  printk(KERN_ERR "Function - %s file %s line %i\n", __FUNCTION__, __FILE__, __LINE__);
+
   return NF_ACCEPT;                                                                   //drops the packet
 }
 
